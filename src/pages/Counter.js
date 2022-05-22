@@ -5,26 +5,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ORDERS } from "../graphql/queries";
 import { CREATE_ORDER, SUBSCRIPTION_ORDER } from "../graphql";
 
-const Counter = () => {
-    const loading = false;
-    const error = false;
-    // const orderList = [];
-
-    const [orderList, setOrderList] = useState([]);
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const getData = () => {
-        fetch('http://localhost:8000/orders')
-            .then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                setOrderList(data);
-                console.log(data);
-            }).catch((e) => console.log("error" + e));
-    }
     // const { loading, error, data, subscribeToMore } = useQuery(QUERY_ORDERS, { variables: { restaurantId: "s001" } });
     // const [addOrder] = useMutation(CREATE_ORDER);
     // const [orderList, setOrderList] = useState([])
@@ -90,23 +70,53 @@ const Counter = () => {
     //     }, [addOrder]
     // );
 
-    return (
-        <div>
-            {/* <Button variant="outlined"      onClick={handleCreate}>mutation</Button> */}
-            <Grid container direction='column-reverse' spacing={3}>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : error ? (
-                    <p>Error ^U^</p>
-                ) : (
-                    orderList.map(order =>
-                    (<Grid item key={order.id}>
-                        <CounterOrderList order={order} />
-                    </Grid>))
-                )}
-            </Grid>
-        </div>
-    );
+// const Counter = () => {
+//     const { loading, error, data, subscribeToMore } = useQuery(QUERY_ORDERS);
+//     const [addOrder] = useMutation(CREATE_ORDER);
+
+//     const [orderList, setOrderList] = useState([]);
+
+//     useEffect(() => {
+//         getData();
+//     }, []);
+
+//     const getData = () => {
+//         fetch('http://localhost:8000/orders')
+//             .then(function (response) {
+//                 return response.json();
+//             }).then(function (data) {
+//                 setOrderList(data);
+//                 console.log(data);
+//             }).catch((e) => console.log("error" + e));
+//     }
+
+//     return (
+//         <div>
+//             {/* <Button variant="outlined"      onClick={handleCreate}>mutation</Button> */}
+//             <Grid container direction='column-reverse' spacing={3}>
+//                 {loading ? (
+//                     <p>Loading...</p>
+//                 ) : error ? (
+//                     <p>Error ^U^</p>
+//                 ) : (
+//                     orderList.map(order =>
+//                     (<Grid item key={order.id}>
+//                         <CounterOrderList order={order} />
+//                     </Grid>))
+//                 )}
+//             </Grid>
+//         </div>
+//     );
+// }
+
+const Counter = () =>{
+
+const { loading, error, data, subscribeToMore } = useQuery(QUERY_ORDERS, { variables: { restaurantId: "1" } });
+
+useEffect(()=>{ 
+    console.log(data)
+}, [data])
+
 }
 
 export default Counter;

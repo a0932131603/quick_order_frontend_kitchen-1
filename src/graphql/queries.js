@@ -27,6 +27,9 @@ query Items($restaurantId: ID!) {
     name
     price
     description
-    img
+    comments {
+      name
+      content
+    }
   }
 }`;

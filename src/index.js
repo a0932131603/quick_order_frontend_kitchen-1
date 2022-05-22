@@ -18,7 +18,7 @@ const httpLink = new HttpLink({
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
   // uri: `ws://49e6-150-117-240-26.ngrok.io/graphql`,
-  uri: 'ws://api.eatba.tk/graphql',
+  uri: 'ws://49e6-150-117-240-26.ngrok.io/graphql',
   options: { reconnect: true },
 });
 // create upload link for uploading image purpose
