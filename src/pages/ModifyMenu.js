@@ -81,6 +81,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ITEMS } from "../graphql/queries";
+import { CREATE_ITEM } from "../graphql/mutations";
+
 // 根據餐點數量產生對應數量的cards
 const cards = [1, 2, 3, 4, 5, 6, 7]; //數字應替換成ItemID(餐點ID)
 const add = [1]; //新增餐點那格
@@ -95,11 +97,24 @@ const galleryImageList = [
 
 const ModifyMenu = () =>{
 
-  const { loading, error, data, subscribeToMore } = useQuery(QUERY_ITEMS, { variables: { restaurantId: "1" } });
+  const {data} = useQuery(QUERY_ITEMS, { variables: { restaurantId: "1" } });
   
   useEffect(()=>{ //當data狀態改變時刷新
       console.log(data)
   }, [data])
+
+
+
+  
+  // useMutation(CREATE_ITEM,{variables: {
+  //         data: {
+  //             price: 100,
+  //             name: "鳳梨",
+  //             img: "https://img.shoplineapp.com/media/image_clips/60a75b39cdd676002ce9c496/original.jpg?1621580601"
+  //         },
+  //     }
+  // });
+
   
 
   return (

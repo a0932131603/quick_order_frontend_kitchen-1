@@ -7,8 +7,8 @@ mutation CreateOrder($order: inputOrder) {
 `;
 
 export const CREATE_ITEM = gql`
-mutation Mutation($data: CreateItemInput!, $file:Upload) {
-  createItem(data: $data, file: $file) {
+mutation Mutation($data: CreateItemInput!) {
+  createItem(data: $data) {
     id
     name
     description

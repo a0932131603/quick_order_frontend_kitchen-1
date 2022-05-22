@@ -127,11 +127,33 @@ import { QUERY_ITEMS, QUERY_ORDERS } from "../graphql/queries";
 // }
 const Kitchen = () =>{
 
-    const { loading, error, data, subscribeToMore } = useQuery(QUERY_ITEMS, { variables: { restaurantId: "1" } });
+    const { data, subscribeToMore } = useQuery(QUERY_ORDERS, { variables: { restaurantId: "1" } });
     
     useEffect(()=>{ //當data狀態改變時刷新
         console.log(data)
     }, [data])
+
+    useEffect(() => {
+        try {
+            subscribeToMore({
+                document: SUBSCRIPTION_ORDER,
+                variables: { restaurantId: "1" },
+                updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) return prev;
+                    const newOrder = subscriptionData.data;
     
+                    console.log(newOrder);
+                    console.log(prev.todayOrders);
+    
+                    return {
+                        ...prev,
+                        todayOrders: [newOrder, ...prev.todayOrders],
+                    };
+                },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }, [subscribeToMore]);
     }
 export default Kitchen;

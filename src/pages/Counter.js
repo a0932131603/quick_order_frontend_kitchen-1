@@ -111,11 +111,33 @@ import { CREATE_ORDER, SUBSCRIPTION_ORDER } from "../graphql";
 
 const Counter = () =>{
 
-const { loading, error, data, subscribeToMore } = useQuery(QUERY_ORDERS, { variables: { restaurantId: "1" } });
-
+const {data, subscribeToMore } = useQuery(QUERY_ORDERS, { variables: { restaurantId: "1" } });
 useEffect(()=>{ 
-    console.log(data)
+    // console.log(data)
 }, [data])
+
+useEffect(() => {
+    try {
+        subscribeToMore({
+            document: SUBSCRIPTION_ORDER,
+            variables: { restaurantId: "1" },
+            updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data) return prev;
+                const newOrder = subscriptionData.data;
+
+                console.log(newOrder);
+                console.log(prev.todayOrders);
+
+                return {
+                    ...prev,
+                    todayOrders: [newOrder, ...prev.todayOrders],
+                };
+            },
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}, [subscribeToMore]);
 
 }
 

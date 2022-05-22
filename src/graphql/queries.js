@@ -10,10 +10,10 @@ query TodayOrders($restaurantId: ID!) {
       orderItemInfo {
         quantity
         note
+        state
       }
     }
     tableNo
-    totalPrice
     time
     id
   }
