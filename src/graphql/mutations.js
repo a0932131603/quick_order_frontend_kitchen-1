@@ -7,12 +7,11 @@ mutation CreateOrder($order: inputOrder) {
 `;
 
 export const CREATE_ITEM = gql`
-mutation Mutation($data: CreateItemInput!) {
+mutation createItem($data: CreateItemInput!) {
   createItem(data: $data) {
     id
     name
     description
-    img
     price
   }
 }

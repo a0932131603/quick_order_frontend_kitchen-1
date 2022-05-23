@@ -81,7 +81,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ITEMS } from "../graphql/queries";
-import { CREATE_ITEM } from "../graphql/mutations";
+import { CREATE_ITEM, DELETE_ITEM } from "../graphql/mutations";
 
 // 根據餐點數量產生對應數量的cards
 const cards = [1, 2, 3, 4, 5, 6, 7]; //數字應替換成ItemID(餐點ID)
@@ -99,23 +99,43 @@ const ModifyMenu = () =>{
 
   const {data} = useQuery(QUERY_ITEMS, { variables: { restaurantId: "1" } });
   
-  useEffect(()=>{ //當data狀態改變時刷新
+  useEffect(()=>{ 
       console.log(data)
   }, [data])
 
+  const [createItem, {errorc}] = useMutation(CREATE_ITEM);
+  const addItem = () =>{
+    createItem({
+      variables: {
+        data:{
+          name: "葡萄",
+          price: 100,
+          img: null
+        }
+      }
+    })
+    if(createItem){
+      console.log(createItem.createItem);
+    }
+    if (errorc){
+      console.log(errorc);
+    }
+  }
 
-
-  
-  // useMutation(CREATE_ITEM,{variables: {
-  //         data: {
-  //             price: 100,
-  //             name: "鳳梨",
-  //             img: "https://img.shoplineapp.com/media/image_clips/60a75b39cdd676002ce9c496/original.jpg?1621580601"
-  //         },
-  //     }
-  // });
-
-  
+  const [DeleteItem, {errord}] = useMutation(DELETE_ITEM);
+  const killItem = () =>{
+    DeleteItem({
+      variables: {
+        deleteItemId: "item1a6bd0e4-d8ff-4df5-8d57-fa093895b6e1"
+      }
+    })
+    if(DeleteItem){
+      console.log(DeleteItem.deleteItem);
+    }
+    if (errorc){
+      console.log(errord);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -141,7 +161,7 @@ const ModifyMenu = () =>{
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="medium">刪除餐點</Button>
+                    <Button size="medium" onClick = {killItem}>刪除餐點</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -165,7 +185,7 @@ const ModifyMenu = () =>{
                   </CardContent>
                   
                   <CardActions>
-                    <Button size="medium">新增餐點（更新至資料庫）</Button>
+                    <Button size="medium" onClick = {addItem}>新增餐點（更新至資料庫）</Button>
                   </CardActions>
                 </Card>
               </Grid>
